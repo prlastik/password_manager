@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+</head>
+<body>
+    <h1>Password Manager</h1>
+    <a href="{{ url_for('add_password') }}">Add New Password</a>
+    <a href="{{ url_for('generate') }}">Generate Password</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Account</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for password in passwords %}
+            <tr>
+                <td>{{ password.account }}</td>
+                <td>{{ password.username }}</td>
+                <td>{{ password.decrypt_password() }}</td>
+                <td>{{ password.notes }}</td>
+                <td>
+                    <a href="{{ url_for('edit_password', id=password.id) }}">Edit</a>
+                    <form action="{{ url_for('delete_password', id=password.id) }}" method="post" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
